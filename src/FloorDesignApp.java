@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class FloorDesignApp extends JFrame {
 
@@ -90,6 +89,10 @@ public class FloorDesignApp extends JFrame {
 
         setContentPane(mainPanel);
         pack();
+
+        // Set a minimum size for the frame
+        setMinimumSize(new Dimension(800, 600));
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
