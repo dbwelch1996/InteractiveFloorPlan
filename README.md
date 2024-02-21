@@ -15,7 +15,7 @@ Explore your creativity and design concepts in an interactive digital environmen
 
 
 # Important Links To Project
-- **User Manuel:** https://docs.google.com/document/d/1tjOP1-d3NSFmuJo-gDnjhlGWM18WBDzQzRXQ5_4CI_Y/edit?usp=sharing
+- **User Manual:** https://docs.google.com/document/d/1tjOP1-d3NSFmuJo-gDnjhlGWM18WBDzQzRXQ5_4CI_Y/edit?usp=sharing
 
 - **Chat Logs:** https://docs.google.com/document/d/1tjOP1-d3NSFmuJo-gDnjhlGWM18WBDzQzRXQ5_4CI_Y/edit?usp=sharing
 
