@@ -12,3 +12,12 @@ The Interactive Floor Plan Designer is a Java Swing application tailored for arc
 - **User-Friendly Menus:** Navigate the application seamlessly with an intuitive menu structure and toolbars.
 
 Explore your creativity and design concepts in an interactive digital environment with the Interactive Floor Plan Designer.
+
+
+# Important Links To Project
+- **User Manuel:** https://docs.google.com/document/d/1tjOP1-d3NSFmuJo-gDnjhlGWM18WBDzQzRXQ5_4CI_Y/edit?usp=sharing
+
+- **Chat Logs:** https://docs.google.com/document/d/1tjOP1-d3NSFmuJo-gDnjhlGWM18WBDzQzRXQ5_4CI_Y/edit?usp=sharing
+
+- **Google Drive Link:** https://drive.google.com/drive/folders/18o8I7s6g8seD9_zNmWJokmMQtCanWgyy?usp=drive_link 
+
