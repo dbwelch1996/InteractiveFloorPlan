@@ -15,9 +15,7 @@ Explore your creativity and design concepts in an interactive digital environmen
 
 
 # Important Links To Project
-- **User Manuel:** https://docs.google.com/document/d/1tjOP1-d3NSFmuJo-gDnjhlGWM18WBDzQzRXQ5_4CI_Y/edit?usp=sharing
+-  The google drive link contains our UI diagram, icons, chat logs, and our user manuel.
+- **Google Drive Link:** https://drive.google.com/drive/folders/18o8I7s6g8seD9_zNmWJokmMQtCanWgyy?usp=sharing
 
-- **Chat Logs:** https://docs.google.com/document/d/1tjOP1-d3NSFmuJo-gDnjhlGWM18WBDzQzRXQ5_4CI_Y/edit?usp=sharing
-
-- **Google Drive Link:** https://drive.google.com/drive/folders/18o8I7s6g8seD9_zNmWJokmMQtCanWgyy?usp=drive_link 
 
