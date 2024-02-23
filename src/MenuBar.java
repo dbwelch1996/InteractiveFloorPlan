@@ -1,9 +1,10 @@
 // MenuBar.java
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class MenuBar extends JMenuBar {
 
-    private Runnable gridViewToggleListener;
+    private ActionListener gridViewToggleListener;
 
     public MenuBar() {
         // File Menu
@@ -57,16 +58,16 @@ public class MenuBar extends JMenuBar {
         add(helpMenu);
     }
 
-    // Method to toggle grid view
-    private void toggleGridView() {
-        if (gridViewToggleListener != null) {
-            gridViewToggleListener.run();
-        }
+
+    public void setGridViewToggleListener(ActionListener listener) {
+        this.gridViewToggleListener = listener;
     }
 
-    // Method to set the listener for grid view toggle
-    public void setGridViewListener(Runnable listener) {
-        this.gridViewToggleListener = listener;
+    // Method to trigger grid view toggle action
+    public void toggleGridView() {
+        if (gridViewToggleListener != null) {
+            gridViewToggleListener.actionPerformed(null);
+        }
     }
 
     private void saveAction() {

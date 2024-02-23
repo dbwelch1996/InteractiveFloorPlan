@@ -1,59 +1,88 @@
-// DrawingPanel.java
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DrawingPanel extends JPanel {
 
+    private List<Shape> shapes;
+    private Shape currentShape;
     private boolean isGridView;
-    private GridViewListener gridViewListener;
 
     public DrawingPanel(boolean isGridView) {
         this.isGridView = isGridView;
-        setPreferredSize(new Dimension(600, 600));
         setBackground(Color.WHITE);
+        shapes = new ArrayList<>();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                currentShape = new Line2D.Double(e.getX(), e.getY(), e.getX(), e.getY());
+                shapes.add(currentShape);
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+           @Override
+public void mouseDragged(MouseEvent e) {
+    if (currentShape != null) {
+        int x1 = (int) ((Line2D) currentShape).getX1();
+        int y1 = (int) ((Line2D) currentShape).getY1();
+        int x2 = e.getX();
+        int y2 = e.getY();
+
+        ((Line2D) currentShape).setLine(x1, y1, x2, y2);
+        repaint();
+    }
+}
+        });        
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                currentShape = null;
+            }
+        });
+    }
+
+    public void toggleGridView() {
+        isGridView = !isGridView;
+        repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (isGridView) {
-            // Draw grid lines
-            drawGrid(g);
-        }
-        // Add any custom drawing logic here
-    }
-
-    private void drawGrid(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.GRAY);
 
-        // Draw vertical lines
-        for (int x = 0; x < getWidth(); x += 20) {
-            g2d.drawLine(x, 0, x, getHeight());
+        // Set the stroke width
+        int strokeWidth = 3; // Adjust this value as needed
+        g2d.setStroke(new BasicStroke(strokeWidth));
+
+        // Draw stored shapes
+        for (Shape shape : shapes) {
+            g2d.draw(shape);
         }
 
-        // Draw horizontal lines
-        for (int y = 0; y < getHeight(); y += 20) {
-            g2d.drawLine(0, y, getWidth(), y);
+        // Draw grid if enabled
+        if (isGridView) {
+            int gridSize = 20; // Define grid size
+            g2d.setColor(Color.LIGHT_GRAY);
+            for (int x = 0; x < getWidth(); x += gridSize) {
+                g2d.drawLine(x, 0, x, getHeight());
+            }
+            for (int y = 0; y < getHeight(); y += gridSize) {
+                g2d.drawLine(0, y, getWidth(), y);
+            }
         }
     }
 
-    public void setGridView(boolean isGridView) {
-        this.isGridView = isGridView;
-        repaint();
-    }
-
-    // Method to set GridViewListener
-    public void setGridViewListener(GridViewListener listener) {
-        this.gridViewListener = listener;
-    }
-
-    // Method to toggle grid view
-    public void toggleGridView() {
-        isGridView = !isGridView;
-        if (gridViewListener != null) {
-            gridViewListener.gridViewToggled(isGridView);
-        }
-        repaint();
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(400, 300);
     }
 }

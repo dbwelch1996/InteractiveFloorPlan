@@ -1,33 +1,27 @@
-// Sidebar.java
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class Sidebar extends JLayeredPane {
+public class Sidebar extends JPanel {
+    private int offsetX, offsetY;
 
     public Sidebar() {
-        setPreferredSize(new Dimension(200, 600));
+        setBackground(Color.LIGHT_GRAY);
+        setPreferredSize(new Dimension(200, 600)); // Adjust the size as needed
 
-        // Create and customize sidebar panel
-        JPanel sidebarPanel = new JPanel();
-        sidebarPanel.setBackground(Color.LIGHT_GRAY);
-        sidebarPanel.setPreferredSize(new Dimension(200, 600));
-        sidebarPanel.setLayout(new GridLayout(0, 1, 0, 10)); // Vertical layout with 10px spacing between components
-
-        // Create and add sidebar items
-        JLabel item1 = new JLabel("Object 1");
-        JLabel item2 = new JLabel("Object 2");
-        JLabel item3 = new JLabel("Object 3");
-
-        // Customize appearance of sidebar items (optional)
-        item1.setForeground(Color.WHITE);
-        item2.setForeground(Color.WHITE);
-        item3.setForeground(Color.WHITE);
-
-        sidebarPanel.add(item1);
-        sidebarPanel.add(item2);
-        sidebarPanel.add(item3);
-
-        // Add sidebar panel to the layered pane
-        add(sidebarPanel, JLayeredPane.DEFAULT_LAYER);
+        // Add mouse listeners to handle drag events
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                offsetX = e.getX();
+                offsetY = e.getY();
+            }
+        });
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                int newX = e.getXOnScreen() - offsetX;
+                int newY = e.getYOnScreen() - offsetY;
+                setLocation(newX, newY);
+            }
+        });
     }
 }

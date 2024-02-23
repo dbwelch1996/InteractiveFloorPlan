@@ -1,6 +1,6 @@
-// FloorDesignApp.java
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class FloorDesignApp extends JFrame {
 
@@ -23,14 +23,27 @@ public class FloorDesignApp extends JFrame {
 
         // Center panel containing canvas and sidebar
         JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(new Sidebar(), BorderLayout.WEST);
 
-        drawingPanel = new DrawingPanel(false); // Initialize drawingPanel
-        centerPanel.add(drawingPanel, BorderLayout.CENTER);
+        // Create a scroll pane to contain the drawing panel
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setPreferredSize(new Dimension(600, 400)); // Set preferred size for the visible area
+
+        // Create the drawing panel
+        drawingPanel = new DrawingPanel(false);
+        drawingPanel.setPreferredSize(new Dimension(1000, 1000)); // Set size of the drawing canvas
+        scrollPane.setViewportView(drawingPanel); // Set the drawing panel as the viewport of the scroll pane
+
+        centerPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Add the sidebar
+        centerPanel.add(new Sidebar(), BorderLayout.WEST);
 
         // Menu bar
         menuBar = new MenuBar();
-        menuBar.setGridViewListener(this::toggleGridView); // Set the toggleGridView method as listener
+        ActionListener listener = (e) -> {
+            drawingPanel.toggleGridView();
+        };
+        menuBar.setGridViewToggleListener(listener);
         setJMenuBar(menuBar);
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
@@ -43,11 +56,6 @@ public class FloorDesignApp extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-    }
-
-    // Method to toggle grid view
-    private void toggleGridView() {
-        drawingPanel.toggleGridView(); // Call toggleGridView method in DrawingPanel
     }
 
     public static void main(String[] args) {
