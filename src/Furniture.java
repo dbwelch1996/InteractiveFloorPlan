@@ -10,7 +10,7 @@ public class Furniture implements Iterable<Furniture> {
         this.name = name;
         this.imagePath = imagePath;
     }
-    
+
     
 
     @Override

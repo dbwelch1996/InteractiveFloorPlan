@@ -16,6 +16,7 @@ public class Sidebar extends JPanel {
                 offsetY = e.getY();
             }
         });
+        
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 int newX = e.getXOnScreen() - offsetX;
