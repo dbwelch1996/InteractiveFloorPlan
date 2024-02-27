@@ -1,3 +1,5 @@
+package com.ECS160.UI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

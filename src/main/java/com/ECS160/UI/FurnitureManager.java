@@ -1,3 +1,7 @@
+package com.ECS160.UI;
+
+import com.ECS160.UI.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,18 +10,14 @@ public class FurnitureManager {
 
     public FurnitureManager() {
         furnitureList = new ArrayList<>();
-        // Load furniture icons here
-    }
-
-    public void addFurniture(Furniture furniture) {
-        furnitureList.add(furniture);
-    }
-
-    public void removeFurniture(Furniture furniture) {
-        furnitureList.remove(furniture);
+        // Add furniture items here or load them from a data source
     }
 
     public List<Furniture> getFurnitureList() {
         return furnitureList;
+    }
+
+    public void addFurniture(Furniture furniture) {
+        furnitureList.add(furniture);
     }
 }

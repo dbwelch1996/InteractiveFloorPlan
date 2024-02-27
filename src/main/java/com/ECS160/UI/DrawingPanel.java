@@ -1,3 +1,5 @@
+package com.ECS160.UI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -58,6 +60,10 @@ public class DrawingPanel extends JPanel {
         } else {
             gridImage = null;
         }
+        repaint();
+    }
+    public void clear() {
+        shapes.clear();
         repaint();
     }
 

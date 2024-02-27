@@ -1,12 +1,14 @@
+package com.ECS160.UI;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class MenuBar extends JMenuBar {
+public class TopMenuBar extends JMenuBar {
 
     private ActionListener gridViewToggleListener;
     private DrawingPanel drawingPanel; // Reference to the DrawingPanel instance
 
-    public MenuBar(DrawingPanel drawingPanel) {
+    public TopMenuBar(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
 
         // File Menu
@@ -64,13 +66,13 @@ public class MenuBar extends JMenuBar {
         add(helpMenu);
     }
 
-    // Method to set the ActionListener for grid view toggle
-    public void setGridViewToggleListener(ActionListener listener) {
-        this.gridViewToggleListener = listener;
+    // Setter method to set the DrawingPanel instance
+    public void setDrawingPanel(DrawingPanel drawingPanel) {
+        this.drawingPanel = drawingPanel;
     }
 
     // Method to trigger grid view toggle action
-    private void toggleGridView() {
+    public void toggleGridView() {
         if (gridViewToggleListener != null) {
             gridViewToggleListener.actionPerformed(null);
         }

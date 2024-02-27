@@ -1,11 +1,15 @@
+package com.ECS160.Apps;
+
+import com.ECS160.UI.*;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+
 
 public class FloorDesignApp extends JFrame {
 
     private DrawingPanel drawingPanel;
-    private MenuBar menuBar;
+    private TopMenuBar menuBar; 
 
     public FloorDesignApp() {
         super("Interactive Floor Design");
@@ -39,11 +43,7 @@ public class FloorDesignApp extends JFrame {
         centerPanel.add(new Sidebar(), BorderLayout.WEST);
 
         // Menu bar - Pass the DrawingPanel instance to the MenuBar constructor
-        menuBar = new MenuBar(drawingPanel);
-        ActionListener listener = (e) -> {
-            drawingPanel.toggleGridView();
-        };
-        menuBar.setGridViewToggleListener(listener);
+        menuBar = new TopMenuBar(drawingPanel);
         setJMenuBar(menuBar);
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
