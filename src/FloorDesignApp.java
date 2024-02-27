@@ -38,8 +38,8 @@ public class FloorDesignApp extends JFrame {
         // Add the sidebar
         centerPanel.add(new Sidebar(), BorderLayout.WEST);
 
-        // Menu bar
-        menuBar = new MenuBar();
+        // Menu bar - Pass the DrawingPanel instance to the MenuBar constructor
+        menuBar = new MenuBar(drawingPanel);
         ActionListener listener = (e) -> {
             drawingPanel.toggleGridView();
         };

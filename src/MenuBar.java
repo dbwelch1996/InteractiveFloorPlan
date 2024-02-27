@@ -1,24 +1,30 @@
-// MenuBar.java
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class MenuBar extends JMenuBar {
 
     private ActionListener gridViewToggleListener;
+    private DrawingPanel drawingPanel; // Reference to the DrawingPanel instance
 
-    public MenuBar() {
+    public MenuBar(DrawingPanel drawingPanel) {
+        this.drawingPanel = drawingPanel;
+
         // File Menu
         JMenu fileMenu = new JMenu("File");
         JMenuItem saveItem = new JMenuItem("Save");
         JMenuItem loadItem = new JMenuItem("Load");
+        JMenuItem clearItem = new JMenuItem("Clear");
         JMenuItem exitItem = new JMenuItem("Exit");
 
         saveItem.addActionListener(e -> saveAction());
         loadItem.addActionListener(e -> System.out.println("Load action"));
         exitItem.addActionListener(e -> exitAction());
+        clearItem.addActionListener(e -> clearAction()); // Set action for clearItem
 
         fileMenu.add(saveItem);
         fileMenu.add(loadItem);
+        fileMenu.addSeparator();
+        fileMenu.add(clearItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
 
@@ -58,15 +64,22 @@ public class MenuBar extends JMenuBar {
         add(helpMenu);
     }
 
-
+    // Method to set the ActionListener for grid view toggle
     public void setGridViewToggleListener(ActionListener listener) {
         this.gridViewToggleListener = listener;
     }
 
     // Method to trigger grid view toggle action
-    public void toggleGridView() {
+    private void toggleGridView() {
         if (gridViewToggleListener != null) {
             gridViewToggleListener.actionPerformed(null);
+        }
+    }
+
+    // Method to clear the drawing panel
+    private void clearAction() {
+        if (drawingPanel != null) {
+            drawingPanel.clear();
         }
     }
 
