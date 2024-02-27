@@ -11,8 +11,6 @@ public class Furniture implements Iterable<Furniture> {
         this.imagePath = imagePath;
     }
 
-    
-
     @Override
     public Iterator<Furniture> iterator() {
         List<Furniture> list = new ArrayList<>();
