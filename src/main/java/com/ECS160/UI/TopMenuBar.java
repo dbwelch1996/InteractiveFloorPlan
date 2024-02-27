@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class TopMenuBar extends JMenuBar {
 
     private ActionListener gridViewToggleListener;
-    private DrawingPanel drawingPanel; // Reference to the DrawingPanel instance
+    private DrawingPanel drawingPanel;
 
     public TopMenuBar(DrawingPanel drawingPanel) {
         this.drawingPanel = drawingPanel;
@@ -49,7 +49,7 @@ public class TopMenuBar extends JMenuBar {
         JMenu viewMenu = new JMenu("View");
         JMenuItem gridViewItem = new JMenuItem("Grid View");
 
-        gridViewItem.addActionListener(e -> toggleGridView());
+        gridViewItem.addActionListener(e -> drawingPanel.toggleGridView()); // Directly call the DrawingPanel's method
 
         viewMenu.add(gridViewItem);
 
@@ -73,10 +73,11 @@ public class TopMenuBar extends JMenuBar {
 
     // Method to trigger grid view toggle action
     public void toggleGridView() {
-        if (gridViewToggleListener != null) {
-            gridViewToggleListener.actionPerformed(null);
+        if (drawingPanel != null) {
+            drawingPanel.toggleGridView();
         }
     }
+
 
     // Method to clear the drawing panel
     private void clearAction() {

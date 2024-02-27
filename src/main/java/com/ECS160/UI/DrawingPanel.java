@@ -99,7 +99,7 @@ public class DrawingPanel extends JPanel {
         }
 
         // Set the stroke width
-        int strokeWidth = 3; // Adjust this value as needed
+        int strokeWidth = 1; // Adjust this value as needed
         g2d.setStroke(new BasicStroke(strokeWidth));
 
         // Draw stored shapes
