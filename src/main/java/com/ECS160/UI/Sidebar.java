@@ -1,43 +1,37 @@
 package com.ECS160.UI;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.*;
 
 public class Sidebar extends JPanel {
-    private int offsetX, offsetY;
-    private Cursor dragCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+    private FurnitureManager furnitureManager;
+    private static final int GRID_COLS = 3; // Set the number of columns to 3
 
-    public Sidebar() {
+    public Sidebar(FurnitureManager furnitureManager) {
+        this.furnitureManager = furnitureManager;
+        setLayout(new GridLayout(0, GRID_COLS, 10, 10)); // Set the layout to grid with 3 columns
         setBackground(Color.LIGHT_GRAY);
         setPreferredSize(new Dimension(200, 600)); // Adjust the size as needed
 
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                offsetX = e.getX();
-                offsetY = e.getY();
-                setCursor(dragCursor); // Change cursor when dragging starts
-            }
+        populateWithFurniture(); // Populate the sidebar with furniture items
+    }
 
-            public void mouseReleased(MouseEvent e) {
-                setCursor(Cursor.getDefaultCursor()); // Restore default cursor when dragging ends
-            }
-        });
-        
-        addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                Point newLocation = getLocation();
-                newLocation.translate(e.getX() - offsetX, e.getY() - offsetY);
-                
-                // Clamp movement within the bounds of the parent container (e.g., JFrame)
-                Container parent = getParent();
-                int maxX = parent.getWidth() - getWidth();
-                int maxY = parent.getHeight() - getHeight();
-                newLocation.x = Math.max(0, Math.min(newLocation.x, maxX));
-                newLocation.y = Math.max(0, Math.min(newLocation.y, maxY));
-                
-                setLocation(newLocation);
-            }
-        });
+    private void populateWithFurniture() {
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 1); // Create a simple line border
+
+        for (Furniture furniture : furnitureManager.getFurnitureList()) {
+            ImageIcon icon = new ImageIcon(furniture.getImagePath());
+            Image scaledImage = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH); // Scale the image
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+            JLabel furnitureLabel = new JLabel(scaledIcon);
+            furnitureLabel.setBackground(Color.WHITE); // Set background color to white
+            furnitureLabel.setOpaque(true); // Make the label background visible
+            furnitureLabel.setBorder(border); // Set the border for each furniture label
+            furnitureLabel.setToolTipText(furniture.getName()); // Show furniture name on hover
+
+            add(furnitureLabel);
+        }
     }
 }

@@ -13,6 +13,13 @@ public class Furniture implements Iterable<Furniture> {
         this.imagePath = imagePath;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+    public String getName(){
+        return name;
+    }
+
     @Override
     public Iterator<Furniture> iterator() {
         List<Furniture> list = new ArrayList<>();
