@@ -1,24 +1,32 @@
-// MenuBar.java
+package com.ECS160.UI;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class MenuBar extends JMenuBar {
+public class TopMenuBar extends JMenuBar {
 
     private ActionListener gridViewToggleListener;
+    private DrawingPanel drawingPanel;
 
-    public MenuBar() {
+    public TopMenuBar(DrawingPanel drawingPanel) {
+        this.drawingPanel = drawingPanel;
+
         // File Menu
         JMenu fileMenu = new JMenu("File");
         JMenuItem saveItem = new JMenuItem("Save");
         JMenuItem loadItem = new JMenuItem("Load");
+        JMenuItem clearItem = new JMenuItem("Clear");
         JMenuItem exitItem = new JMenuItem("Exit");
 
         saveItem.addActionListener(e -> saveAction());
         loadItem.addActionListener(e -> System.out.println("Load action"));
         exitItem.addActionListener(e -> exitAction());
+        clearItem.addActionListener(e -> clearAction()); // Set action for clearItem
 
         fileMenu.add(saveItem);
         fileMenu.add(loadItem);
+        fileMenu.addSeparator();
+        fileMenu.add(clearItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
 
@@ -41,7 +49,7 @@ public class MenuBar extends JMenuBar {
         JMenu viewMenu = new JMenu("View");
         JMenuItem gridViewItem = new JMenuItem("Grid View");
 
-        gridViewItem.addActionListener(e -> toggleGridView());
+        gridViewItem.addActionListener(e -> drawingPanel.toggleGridView()); // Directly call the DrawingPanel's method
 
         viewMenu.add(gridViewItem);
 
@@ -58,15 +66,23 @@ public class MenuBar extends JMenuBar {
         add(helpMenu);
     }
 
-
-    public void setGridViewToggleListener(ActionListener listener) {
-        this.gridViewToggleListener = listener;
+    // Setter method to set the DrawingPanel instance
+    public void setDrawingPanel(DrawingPanel drawingPanel) {
+        this.drawingPanel = drawingPanel;
     }
 
     // Method to trigger grid view toggle action
     public void toggleGridView() {
-        if (gridViewToggleListener != null) {
-            gridViewToggleListener.actionPerformed(null);
+        if (drawingPanel != null) {
+            drawingPanel.toggleGridView();
+        }
+    }
+
+
+    // Method to clear the drawing panel
+    private void clearAction() {
+        if (drawingPanel != null) {
+            drawingPanel.clear();
         }
     }
 

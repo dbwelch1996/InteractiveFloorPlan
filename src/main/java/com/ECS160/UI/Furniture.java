@@ -1,3 +1,5 @@
+package com.ECS160.UI;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -10,8 +12,6 @@ public class Furniture implements Iterable<Furniture> {
         this.name = name;
         this.imagePath = imagePath;
     }
-
-    
 
     @Override
     public Iterator<Furniture> iterator() {

@@ -1,3 +1,5 @@
+package com.ECS160.UI;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +12,4 @@ public class Floor extends JPanel {
         this.color = color;
         setBackground(color);
     }
-
-    // Getters and setters for type, color, texture, etc.
 }
