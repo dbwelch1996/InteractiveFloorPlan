@@ -13,6 +13,8 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DnDConstants;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DrawingPanel extends JPanel {
     private List<Shape> shapes;
@@ -32,12 +34,37 @@ public class DrawingPanel extends JPanel {
         placedFurniture = new ArrayList<>();
         setupMouseListeners();
         setupDropTarget();
+        setFocusable(true);
+        setupKeyListeners();
+    }
+
+    private void setupKeyListeners() {
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (draggedFurniture != null) {
+                    int rotationIncrement = 5;
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_LEFT:
+                            // Rotate counter-clockwise
+                            draggedFurniture.setRotationAngle(draggedFurniture.getRotationAngle() - rotationIncrement);
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            // Rotate clockwise
+                            draggedFurniture.setRotationAngle(draggedFurniture.getRotationAngle() + rotationIncrement);
+                            break;
+                    }
+                    repaint();
+                }
+            }
+        });
     }
 
     private void setupMouseListeners() {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                requestFocusInWindow(); // Request focus when the mouse is pressed
                 Furniture selected = getFurnitureAt(e.getPoint());
                 if (selected != null) {
                     draggedFurniture = selected;
@@ -76,8 +103,7 @@ public class DrawingPanel extends JPanel {
 
     private Furniture getFurnitureAt(Point point) {
         for (Furniture furniture : placedFurniture) {
-            // Assuming each furniture image size is 50x50 for hit detection
-            Rectangle bounds = new Rectangle(furniture.getX(), furniture.getY(), 50, 50);
+            Rectangle bounds = new Rectangle(furniture.getX(), furniture.getY(), 50, 50); // Assuming 50x50 is the furniture size
             if (bounds.contains(point)) {
                 return furniture;
             }
@@ -104,7 +130,6 @@ public class DrawingPanel extends JPanel {
                     try {
                         Furniture furniture = (Furniture) transferable.getTransferData(FurnitureTransferable.FURNITURE_FLAVOR);
                         Point dropPoint = dtde.getLocation();
-                        // Create a new instance of the furniture to allow multiple items of the same type
                         Furniture newFurniture = new Furniture(furniture.getName(), furniture.getImagePath());
                         newFurniture.setPosition(dropPoint);
                         placedFurniture.add(newFurniture);
@@ -136,7 +161,7 @@ public class DrawingPanel extends JPanel {
     }
 
     private void createGridImage() {
-        int gridSize = 30;
+        int gridSize = 25;
         gridImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = gridImage.createGraphics();
         g2d.setColor(Color.LIGHT_GRAY);
@@ -157,7 +182,7 @@ public class DrawingPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        float lineThickness = 3.0f;  // Example line thickness
+        float lineThickness = 2.5f;  // Example line thickness
         g2d.setStroke(new BasicStroke(lineThickness));
 
         if (isGridView && gridImage != null) {
@@ -171,7 +196,11 @@ public class DrawingPanel extends JPanel {
         for (Furniture furniture : placedFurniture) {
             Image image = furniture.getImage();
             if (image != null) {
+                g2d = (Graphics2D) g.create();
+                double rotationRadians = Math.toRadians(furniture.getRotationAngle());
+                g2d.rotate(rotationRadians, furniture.getX() + 50 / 2, furniture.getY() + 50 / 2); // Assuming furniture size is 50x50
                 g2d.drawImage(image, furniture.getX(), furniture.getY(), 50, 50, this);
+                g2d.dispose();
             }
         }
     }

@@ -8,6 +8,7 @@ public class Furniture {
     private String name;
     private String imagePath;
     private Point position; // Position of the furniture in the drawing area
+    private double rotationAngle; // Stores the rotation angle in degrees
 
     public Furniture(String name, String imagePath) {
         this.name = name;
@@ -26,6 +27,13 @@ public class Furniture {
 
     public String getImagePath() {
         return imagePath;
+    }
+    public void setRotationAngle(double angle) {
+        this.rotationAngle = angle;
+    }
+
+    public double getRotationAngle() {
+        return rotationAngle;
     }
 
     public void setImagePath(String imagePath) {

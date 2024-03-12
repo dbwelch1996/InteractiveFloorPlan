@@ -34,7 +34,7 @@ public class FloorDesignApp extends JFrame {
 
         // Create a scroll pane to contain the drawing panel
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setPreferredSize(new Dimension(1100, 900)); // Set preferred size for the visible area
+        scrollPane.setPreferredSize(new Dimension(1100, 800)); // Set preferred size for the visible area
 
         // Create the drawing panel
         drawingPanel = new DrawingPanel(false);
