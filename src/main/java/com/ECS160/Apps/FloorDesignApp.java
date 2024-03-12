@@ -25,7 +25,9 @@ public class FloorDesignApp extends JFrame {
 
         // Initialize the FurnitureManager and load furniture images
         furnitureManager = new FurnitureManager();
-        furnitureManager.loadFurnitureImages("/path/to/your/icons"); // Update the path to your icons
+
+        furnitureManager.loadFurnitureImages("src/main/java/com/ECS160/Icons"); // Provide the correct path
+
 
         JTabbedPane tabbedPane = new JTabbedPane(); // Create a tabbed pane
 
@@ -41,7 +43,23 @@ public class FloorDesignApp extends JFrame {
         // Add the tabbed pane to the main panel
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
-        // Create and add the sidebar to the main panel, adjacent to the tabbed pane
+        // Center panel containing canvas and sidebar
+        JPanel centerPanel = new JPanel(new BorderLayout());
+
+
+        // Create a scroll pane to contain the drawing panel
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setPreferredSize(new Dimension(1100, 800)); // Set preferred size for the visible area
+
+        // Create the drawing panel
+        drawingPanel = new DrawingPanel(false);
+        drawingPanel.setPreferredSize(new Dimension(1000, 1000)); // Set size of the drawing canvas
+        scrollPane.setViewportView(drawingPanel); // Set the drawing panel as the viewport of the scroll pane
+
+        centerPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Add the sidebar with furniture
+
         Sidebar sidebar = new Sidebar(furnitureManager); // Pass the furnitureManager to Sidebar
         mainPanel.add(sidebar, BorderLayout.WEST);
 
@@ -58,6 +76,7 @@ public class FloorDesignApp extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
+
 
     // Method to create a panel for each page without its own sidebar
     private JPanel createPage() {
@@ -76,6 +95,7 @@ public class FloorDesignApp extends JFrame {
 
         return mainPanel;
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
