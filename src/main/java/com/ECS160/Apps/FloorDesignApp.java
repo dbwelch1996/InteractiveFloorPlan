@@ -23,81 +23,56 @@ public class FloorDesignApp extends JFrame {
             e.printStackTrace();
         }
 
-        JTabbedPane tabbedPane = new JTabbedPane(); // Create a tabbed pane
-
-
         // Initialize the FurnitureManager and load furniture images
         furnitureManager = new FurnitureManager();
-        furnitureManager.loadFurnitureImages("/Users/dwelch/Desktop/Code/School/ECS160/Final Project/InteractiveFloorPlan/src/main/java/com/ECS160/Icons"); // Provide the correct path
+        furnitureManager.loadFurnitureImages("/path/to/your/icons"); // Update the path to your icons
 
-
+        JTabbedPane tabbedPane = new JTabbedPane(); // Create a tabbed pane
 
         // Create multiple pages (tabs)
         for (int i = 1; i <= 3; i++) {
-            JPanel pagePanel = createPage(furnitureManager); // Create a panel for each page
+            JPanel pagePanel = createPage(); // Create a panel for each page
             tabbedPane.addTab("Page " + i, pagePanel); // Add the panel to the tabbed pane
         }
 
+        // Main panel that will hold both the sidebar and the tabbed pane
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
+        // Add the tabbed pane to the main panel
+        mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
-        // Center panel containing canvas and sidebar
-        JPanel centerPanel = new JPanel(new BorderLayout());
-
-        // Create a scroll pane to contain the drawing panel
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setPreferredSize(new Dimension(1000, 500)); // Set preferred size for the visible area
-
-        // Create the drawing panel
-        drawingPanel = new DrawingPanel(false);
-        drawingPanel.setPreferredSize(new Dimension(1000, 1000)); // Set size of the drawing canvas
-        scrollPane.setViewportView(drawingPanel); // Set the drawing panel as the viewport of the scroll pane
-
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
-
-        // Add the sidebar with furniture
+        // Create and add the sidebar to the main panel, adjacent to the tabbed pane
         Sidebar sidebar = new Sidebar(furnitureManager); // Pass the furnitureManager to Sidebar
-        centerPanel.add(sidebar, BorderLayout.WEST);
+        mainPanel.add(sidebar, BorderLayout.WEST);
 
-        // Menu bar - Pass the DrawingPanel instance to the MenuBar constructor
-        menuBar = new TopMenuBar(drawingPanel);
+        // Menu bar
+        // Assuming you want a single menu bar for the application window and not individual ones for each tab
+        menuBar = new TopMenuBar(null); // Modify TopMenuBar to handle a possibly null DrawingPanel or update logic accordingly
         setJMenuBar(menuBar);
 
-        setContentPane(tabbedPane); // Set the tabbed pane as the content pane
+        setContentPane(mainPanel); // Set the main panel as the content pane of the frame
         pack();
 
-        // Set a minimum size for the frame
+        // Set a minimum size for the frame and other properties
         setMinimumSize(new Dimension(800, 600));
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
-    // Method to create a panel for each page
-    private JPanel createPage(FurnitureManager furnitureManager) {
+    // Method to create a panel for each page without its own sidebar
+    private JPanel createPage() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // Center panel containing canvas and sidebar
-        JPanel centerPanel = new JPanel(new BorderLayout());
-
-        // Create a scroll pane to contain the drawing panel
+        // Scroll pane to contain the drawing panel
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setPreferredSize(new Dimension(600, 400)); // Set preferred size for the visible area
 
-        // Create the drawing panel
+        // Drawing panel
         DrawingPanel drawingPanel = new DrawingPanel(false);
         drawingPanel.setPreferredSize(new Dimension(1000, 1000)); // Set size of the drawing canvas
-        scrollPane.setViewportView(drawingPanel); // Set the drawing panel as the viewport of the scroll pane
+        scrollPane.setViewportView(drawingPanel); // Add the drawing panel to the scroll pane
 
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
-
-        // Add the sidebar
-        centerPanel.add(new Sidebar(furnitureManager), BorderLayout.WEST);
-
-        // Menu bar - Pass the DrawingPanel instance to the MenuBar constructor
-        TopMenuBar menuBar = new TopMenuBar(drawingPanel);
-        setJMenuBar(menuBar);
-
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         return mainPanel;
     }
