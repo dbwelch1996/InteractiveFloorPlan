@@ -28,20 +28,16 @@ public class FloorDesignApp extends JFrame {
 
         furnitureManager.loadFurnitureImages("src/main/java/com/ECS160/Icons"); // Provide the correct path
 
-
-        JTabbedPane tabbedPane = new JTabbedPane(); // Create a tabbed pane
-
-        // Create multiple pages (tabs)
-        for (int i = 1; i <= 3; i++) {
-            JPanel pagePanel = createPage(); // Create a panel for each page
-            tabbedPane.addTab("Page " + i, pagePanel); // Add the panel to the tabbed pane
-        }
-
+        PageSwapper pageSwapper = new PageSwapper(furnitureManager);
         // Main panel that will hold both the sidebar and the tabbed pane
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         // Add the tabbed pane to the main panel
-        mainPanel.add(tabbedPane, BorderLayout.CENTER);
+        mainPanel.add(pageSwapper, BorderLayout.CENTER);
+
+
+        // Optionally, you can add the button to the top or bottom of the mainPanel or another panel, as preferred
+        mainPanel.add(pageSwapper.getControlPanel(), BorderLayout.NORTH);
 
         // Center panel containing canvas and sidebar
         JPanel centerPanel = new JPanel(new BorderLayout());
@@ -78,23 +74,6 @@ public class FloorDesignApp extends JFrame {
     }
 
 
-    // Method to create a panel for each page without its own sidebar
-    private JPanel createPage() {
-        JPanel mainPanel = new JPanel(new BorderLayout());
-
-        // Scroll pane to contain the drawing panel
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setPreferredSize(new Dimension(600, 400)); // Set preferred size for the visible area
-
-        // Drawing panel
-        DrawingPanel drawingPanel = new DrawingPanel(false);
-        drawingPanel.setPreferredSize(new Dimension(1000, 1000)); // Set size of the drawing canvas
-        scrollPane.setViewportView(drawingPanel); // Add the drawing panel to the scroll pane
-
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-
-        return mainPanel;
-    }
 
 
     public static void main(String[] args) {
