@@ -2,9 +2,7 @@ package com.ECS160.UI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -13,8 +11,6 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DnDConstants;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class DrawingPanel extends JPanel {
     private List<Shape> shapes;
@@ -44,6 +40,7 @@ public class DrawingPanel extends JPanel {
             public void keyPressed(KeyEvent e) {
                 if (draggedFurniture != null) {
                     int rotationIncrement = 5;
+                    double scaleIncrement = 0.1;
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_LEFT:
                             // Rotate counter-clockwise
@@ -52,6 +49,14 @@ public class DrawingPanel extends JPanel {
                         case KeyEvent.VK_RIGHT:
                             // Rotate clockwise
                             draggedFurniture.setRotationAngle(draggedFurniture.getRotationAngle() + rotationIncrement);
+                            break;
+                        case KeyEvent.VK_UP:
+                            // Scale up
+                            draggedFurniture.setScaleFactor(draggedFurniture.getScaleFactor() + scaleIncrement);
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            // Scale down
+                            draggedFurniture.setScaleFactor(draggedFurniture.getScaleFactor() - scaleIncrement);
                             break;
                     }
                     repaint();
@@ -103,7 +108,8 @@ public class DrawingPanel extends JPanel {
 
     private Furniture getFurnitureAt(Point point) {
         for (Furniture furniture : placedFurniture) {
-            Rectangle bounds = new Rectangle(furniture.getX(), furniture.getY(), 50, 50); // Assuming 50x50 is the furniture size
+            Rectangle bounds = new Rectangle(furniture.getX(), furniture.getY(),
+                    (int)(50 * furniture.getScaleFactor()), (int)(50 * furniture.getScaleFactor())); // Assuming 50x50 is the furniture size
             if (bounds.contains(point)) {
                 return furniture;
             }
@@ -199,7 +205,8 @@ public class DrawingPanel extends JPanel {
                 g2d = (Graphics2D) g.create();
                 double rotationRadians = Math.toRadians(furniture.getRotationAngle());
                 g2d.rotate(rotationRadians, furniture.getX() + 50 / 2, furniture.getY() + 50 / 2); // Assuming furniture size is 50x50
-                g2d.drawImage(image, furniture.getX(), furniture.getY(), 50, 50, this);
+                g2d.drawImage(image, furniture.getX(), furniture.getY(),
+                        (int)(50 * furniture.getScaleFactor()), (int)(50 * furniture.getScaleFactor()), this);
                 g2d.dispose();
             }
         }

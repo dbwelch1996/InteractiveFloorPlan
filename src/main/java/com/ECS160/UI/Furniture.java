@@ -10,6 +10,8 @@ public class Furniture {
     private Point position; // Position of the furniture in the drawing area
     private double rotationAngle; // Stores the rotation angle in degrees
 
+    private double scaleFactor = 1.0; // Default scale
+
     public Furniture(String name, String imagePath) {
         this.name = name;
         this.imagePath = imagePath;
@@ -66,5 +68,23 @@ public class Furniture {
     public int getY() {
         return position.y;
     }
+
+    public void setScaleFactor(double scaleFactor) {
+        this.scaleFactor = scaleFactor;
+    }
+
+    public double getScaleFactor() {
+        return scaleFactor;
+    }
+
+    // Method to scale the image
+    public Image getScaledImage() {
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image image = icon.getImage();
+        int scaledWidth = (int)(image.getWidth(null) * scaleFactor);
+        int scaledHeight = (int)(image.getHeight(null) * scaleFactor);
+        return image.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+    }
 }
+
 
