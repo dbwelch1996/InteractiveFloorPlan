@@ -136,7 +136,7 @@ public class DrawingPanel extends JPanel {
     }
 
     private void createGridImage() {
-        int gridSize = 20;
+        int gridSize = 30;
         gridImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = gridImage.createGraphics();
         g2d.setColor(Color.LIGHT_GRAY);
@@ -156,6 +156,9 @@ public class DrawingPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
+        float lineThickness = 3.0f;  // Example line thickness
+        g2d.setStroke(new BasicStroke(lineThickness));
 
         if (isGridView && gridImage != null) {
             g2d.drawImage(gridImage, 0, 0, null);
