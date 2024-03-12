@@ -3,33 +3,46 @@ package com.ECS160.UI;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Sidebar extends JPanel {
     private FurnitureManager furnitureManager;
-    private static final int GRID_COLS = 3; // Set the number of columns to 3
 
     public Sidebar(FurnitureManager furnitureManager) {
         this.furnitureManager = furnitureManager;
-        setLayout(new GridLayout(0, GRID_COLS, 10, 10)); // Set the layout to grid with 3 columns
+        setLayout(new GridLayout(0, 3, 10, 10));
         setBackground(Color.LIGHT_GRAY);
-        setPreferredSize(new Dimension(200, 600)); // Adjust the size as needed
+        setPreferredSize(new Dimension(200, 600));
 
-        populateWithFurniture(); // Populate the sidebar with furniture items
+        populateWithFurniture();
     }
 
     private void populateWithFurniture() {
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 1); // Create a simple line border
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+        FurnitureTransferHandler transferHandler = new FurnitureTransferHandler();
 
         for (Furniture furniture : furnitureManager.getFurnitureList()) {
             ImageIcon icon = new ImageIcon(furniture.getImagePath());
-            Image scaledImage = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH); // Scale the image
-            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            Image scaledImage = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            JLabel furnitureLabel = new JLabel(new ImageIcon(scaledImage));
+            furnitureLabel.setBorder(border);
+            furnitureLabel.setOpaque(true);
+            furnitureLabel.setBackground(Color.WHITE);
+            furnitureLabel.setToolTipText(furniture.getName());
+            furnitureLabel.setTransferHandler(transferHandler);
 
-            JLabel furnitureLabel = new JLabel(scaledIcon);
-            furnitureLabel.setBackground(Color.WHITE); // Set background color to white
-            furnitureLabel.setOpaque(true); // Make the label background visible
-            furnitureLabel.setBorder(border); // Set the border for each furniture label
-            furnitureLabel.setToolTipText(furniture.getName()); // Show furniture name on hover
+            // Associate the furniture with the label
+            furnitureLabel.putClientProperty("furniture", furniture);
+
+            furnitureLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    JComponent c = (JComponent) e.getSource();
+                    TransferHandler handler = c.getTransferHandler();
+                    handler.exportAsDrag(c, e, TransferHandler.COPY);
+                }
+            });
 
             add(furnitureLabel);
         }

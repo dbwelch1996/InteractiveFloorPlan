@@ -25,7 +25,7 @@ public class FloorDesignApp extends JFrame {
 
         // Initialize the FurnitureManager and load furniture images
         furnitureManager = new FurnitureManager();
-        furnitureManager.loadFurnitureImages("/Users/dwelch/Desktop/Code/School/ECS160/Final Project/InteractiveFloorPlan/src/main/java/com/ECS160/Icons"); // Provide the correct path
+        furnitureManager.loadFurnitureImages("src/main/java/com/ECS160/Icons"); // Provide the correct path
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -62,6 +62,7 @@ public class FloorDesignApp extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
