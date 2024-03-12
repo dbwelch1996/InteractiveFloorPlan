@@ -39,12 +39,16 @@ public class Furniture {
     public void setPosition(Point position) {
         this.position = position;
     }
+    public void moveBy(int dx, int dy) {
+        position.translate(dx, dy); // Update the position
+    }
 
     // Method to get the image
     public Image getImage() {
         ImageIcon icon = new ImageIcon(imagePath);
         return icon.getImage();
     }
+
 
     // Methods to get x and y coordinates
     public int getX() {
@@ -55,3 +59,4 @@ public class Furniture {
         return position.y;
     }
 }
+

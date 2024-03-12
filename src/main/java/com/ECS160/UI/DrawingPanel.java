@@ -1,31 +1,18 @@
 package com.ECS160.UI;
 
-import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Shape;
-import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
-
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
-
+import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DnDConstants;
+import java.awt.datatransfer.Transferable;
 
 public class DrawingPanel extends JPanel {
     private List<Shape> shapes;
@@ -43,7 +30,6 @@ public class DrawingPanel extends JPanel {
         shapes = new ArrayList<>();
         furnitureManager = new FurnitureManager();
         placedFurniture = new ArrayList<>();
-
         setupMouseListeners();
         setupDropTarget();
     }
@@ -52,12 +38,20 @@ public class DrawingPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                currentShape = new Line2D.Double(e.getX(), e.getY(), e.getX(), e.getY());
-                shapes.add(currentShape);
+                Furniture selected = getFurnitureAt(e.getPoint());
+                if (selected != null) {
+                    draggedFurniture = selected;
+                    lastMousePosition = e.getPoint();
+                } else {
+                    currentShape = new Line2D.Double(e.getX(), e.getY(), e.getX(), e.getY());
+                    shapes.add(currentShape);
+                }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                draggedFurniture = null;
+                lastMousePosition = null;
                 currentShape = null;
             }
         });
@@ -65,13 +59,30 @@ public class DrawingPanel extends JPanel {
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (currentShape != null) {
+                if (draggedFurniture != null && lastMousePosition != null) {
+                    int dx = e.getX() - lastMousePosition.x;
+                    int dy = e.getY() - lastMousePosition.y;
+                    draggedFurniture.moveBy(dx, dy);
+                    lastMousePosition = e.getPoint();
+                    repaint();
+                } else if (currentShape != null) {
                     Line2D line = (Line2D) currentShape;
                     line.setLine(line.getX1(), line.getY1(), e.getX(), e.getY());
                     repaint();
                 }
             }
         });
+    }
+
+    private Furniture getFurnitureAt(Point point) {
+        for (Furniture furniture : placedFurniture) {
+            // Assuming each furniture image size is 50x50 for hit detection
+            Rectangle bounds = new Rectangle(furniture.getX(), furniture.getY(), 50, 50);
+            if (bounds.contains(point)) {
+                return furniture;
+            }
+        }
+        return null;
     }
 
     private void setupDropTarget() {
@@ -93,9 +104,10 @@ public class DrawingPanel extends JPanel {
                     try {
                         Furniture furniture = (Furniture) transferable.getTransferData(FurnitureTransferable.FURNITURE_FLAVOR);
                         Point dropPoint = dtde.getLocation();
-                        furniture.setPosition(dropPoint);
-                        furnitureManager.getFurnitureList().add(furniture);
-                        placedFurniture.add(furniture);
+                        // Create a new instance of the furniture to allow multiple items of the same type
+                        Furniture newFurniture = new Furniture(furniture.getName(), furniture.getImagePath());
+                        newFurniture.setPosition(dropPoint);
+                        placedFurniture.add(newFurniture);
                         return true;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -153,14 +165,10 @@ public class DrawingPanel extends JPanel {
             g2d.draw(shape);
         }
 
-        int furnitureWidth = 50; // Set the desired width
-        int furnitureHeight = 50; // Set the desired height
-
         for (Furniture furniture : placedFurniture) {
             Image image = furniture.getImage();
             if (image != null) {
-                // Scale and draw the image
-                g2d.drawImage(image, furniture.getX(), furniture.getY(), furnitureWidth, furnitureHeight, this);
+                g2d.drawImage(image, furniture.getX(), furniture.getY(), 50, 50, this);
             }
         }
     }
