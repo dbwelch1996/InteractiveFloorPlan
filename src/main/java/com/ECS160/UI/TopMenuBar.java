@@ -1,6 +1,7 @@
 package com.ECS160.UI;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TopMenuBar extends JMenuBar {
@@ -47,9 +48,9 @@ public class TopMenuBar extends JMenuBar {
 
         // View Menu
         JMenu viewMenu = new JMenu("View");
-        JMenuItem gridViewItem = new JMenuItem("Grid View");
+        JMenuItem gridViewItem = new JMenuItem("Toggle Grid View");
 
-        gridViewItem.addActionListener(e -> drawingPanel.toggleGridView()); // Directly call the DrawingPanel's method
+        gridViewItem.addActionListener(e -> toggleGridView()); // Use local method to toggle grid view
 
         viewMenu.add(gridViewItem);
 
