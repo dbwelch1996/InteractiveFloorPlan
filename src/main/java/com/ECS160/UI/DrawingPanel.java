@@ -82,9 +82,11 @@ public class DrawingPanel extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                draggedFurniture = null;
-                lastMousePosition = null;
-                currentShape = null;
+                if (draggedFurniture != null && lastMousePosition != null) {
+                    // Reset the draggedFurniture and lastMousePosition variables
+                    draggedFurniture = null;
+                    lastMousePosition = null;
+                }
             }
         });
 
