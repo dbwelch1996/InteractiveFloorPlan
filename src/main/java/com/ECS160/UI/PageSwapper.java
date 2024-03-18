@@ -96,4 +96,24 @@ public class PageSwapper extends JPanel {
 
         return controlPanel;
     }
+
+    private DrawingPanel getCurrentDrawingPanel() {
+        int selectedIndex = tabbedPane.getSelectedIndex();
+        if (selectedIndex != -1) {
+            JPanel mainPanel = (JPanel) tabbedPane.getComponentAt(selectedIndex);
+            JScrollPane scrollPane = (JScrollPane) mainPanel.getComponent(0);
+            return (DrawingPanel) scrollPane.getViewport().getView();
+        }
+        return null;
+    }
+
+    public void clear() {
+        getCurrentDrawingPanel().clear();
+    }
+
+    public void toggleGridView() {
+        getCurrentDrawingPanel().toggleGridView();
+    }
+
+
 }

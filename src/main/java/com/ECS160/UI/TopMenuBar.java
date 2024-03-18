@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 public class TopMenuBar extends JMenuBar {
 
     private ActionListener gridViewToggleListener;
-    private DrawingPanel drawingPanel;
+    private PageSwapper pageSwapper;
 
-    public TopMenuBar(DrawingPanel drawingPanel) {
-        this.drawingPanel = drawingPanel;
+    public TopMenuBar(PageSwapper pageSwapper) {
+        this.pageSwapper = pageSwapper;
 
         // File Menu
         JMenu fileMenu = new JMenu("File");
@@ -49,7 +49,7 @@ public class TopMenuBar extends JMenuBar {
         JMenu viewMenu = new JMenu("View");
         JMenuItem gridViewItem = new JMenuItem("Grid View");
 
-        gridViewItem.addActionListener(e -> drawingPanel.toggleGridView()); // Directly call the DrawingPanel's method
+        gridViewItem.addActionListener(e -> pageSwapper.toggleGridView()); // Directly call the pageSwapper's method
 
         viewMenu.add(gridViewItem);
 
@@ -66,23 +66,23 @@ public class TopMenuBar extends JMenuBar {
         add(helpMenu);
     }
 
-    // Setter method to set the DrawingPanel instance
-    public void setDrawingPanel(DrawingPanel drawingPanel) {
-        this.drawingPanel = drawingPanel;
+    // Setter method to set the pageSwapper instance
+    public void setPageSwapper(PageSwapper pageSwapper) {
+        this.pageSwapper = pageSwapper;
     }
 
     // Method to trigger grid view toggle action
     public void toggleGridView() {
-        if (drawingPanel != null) {
-            drawingPanel.toggleGridView();
+        if (pageSwapper != null) {
+            pageSwapper.toggleGridView();
         }
     }
 
 
     // Method to clear the drawing panel
     private void clearAction() {
-        if (drawingPanel != null) {
-            drawingPanel.clear();
+        if (pageSwapper != null) {
+            pageSwapper.clear();
         }
     }
 
