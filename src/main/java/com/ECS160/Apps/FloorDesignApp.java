@@ -35,9 +35,7 @@ public class FloorDesignApp extends JFrame {
         // Add the tabbed pane to the main panel
         mainPanel.add(pageSwapper, BorderLayout.CENTER);
 
-
-        // Optionally, you can add the button to the top or bottom of the mainPanel or another panel, as preferred
-        mainPanel.add(pageSwapper.getControlPanel(), BorderLayout.NORTH);
+        
 
         // Center panel containing canvas and sidebar
         JPanel centerPanel = new JPanel(new BorderLayout());

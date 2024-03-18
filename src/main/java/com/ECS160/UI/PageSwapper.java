@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 public class PageSwapper extends JPanel {
     private JTabbedPane tabbedPane;
+
+    private JPanel controlPanel;
     private FurnitureManager furnitureManager;
     private int pageCount;
     private int initialPageCount;
@@ -18,6 +20,10 @@ public class PageSwapper extends JPanel {
         this.initialPageCount = 3;
         this.pageCount = initialPageCount; // Initialize page count
         setLayout(new BorderLayout());
+
+        controlPanel = getControlPanel();
+        add(controlPanel, BorderLayout.NORTH);
+
         tabbedPane = new JTabbedPane();
         initializeTabs();
     }
@@ -39,7 +45,8 @@ public class PageSwapper extends JPanel {
         scrollPane.setPreferredSize(new Dimension(600, 400)); // Set preferred size
 
         DrawingPanel drawingPanel = new DrawingPanel(false);
-        drawingPanel.setPreferredSize(new Dimension(1000, 1000));
+        drawingPanel.setPreferredSize(new Dimension(1000,
+                1000));
         scrollPane.setViewportView(drawingPanel);
 
         mainPanel.add(scrollPane, BorderLayout.CENTER);
