@@ -16,9 +16,11 @@
 
         private ActionListener gridViewToggleListener;
         private PageSwapper pageSwapper;
+        private DrawingPanel drawingPanel; // Reference to the DrawingPanel
 
-        public TopMenuBar(PageSwapper pageSwapper) {
+        public TopMenuBar(PageSwapper pageSwapper, DrawingPanel drawingPanel) {
             this.pageSwapper = pageSwapper;
+            this.drawingPanel = drawingPanel; // Set the DrawingPanel
 
             // File Menu
             JMenu fileMenu = new JMenu("File");
@@ -123,7 +125,9 @@
         }
 
         private void saveAction() {
-            System.out.println("Save action");
+            if (drawingPanel != null) {
+                drawingPanel.saveDrawingPanel(); // Call the method to save the drawing panel
+            }
         }
 
         private void exitAction() {
