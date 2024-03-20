@@ -5,9 +5,21 @@
     <version>1.0.0</version>
     <packaging>war</packaging>
     <name>interactivefloorplan</name>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <!-- Apache PDFBox dependency -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+    </dependencies>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <outputDirectory>bin</outputDirectory>
