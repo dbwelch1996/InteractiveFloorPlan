@@ -1,10 +1,13 @@
 package com.ECS160.UI;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.dnd.DropTarget;
@@ -173,6 +176,19 @@ public class DrawingPanel extends JPanel {
             gridImage = null;
         }
         repaint();
+    }
+    public void saveDrawingPanel() {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        paint(g2d);
+        g2d.dispose();
+
+        try {
+            File outputFile = new File("saved_drawing.png");
+            ImageIO.write(image, "png", outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clear() {

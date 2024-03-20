@@ -6,7 +6,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 public class FurnitureTransferable implements Transferable {
-    private Furniture furniture;
+    private final Furniture furniture;
     public static final DataFlavor FURNITURE_FLAVOR = new DataFlavor(Furniture.class, "Furniture");
 
     public FurnitureTransferable(Furniture furniture) {

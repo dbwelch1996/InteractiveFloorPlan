@@ -43,11 +43,11 @@ public class FloorDesignApp extends JFrame {
 
         // Create a scroll pane to contain the drawing panel
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setPreferredSize(new Dimension(1100, 800)); // Set preferred size for the visible area
+        scrollPane.setPreferredSize(new Dimension(1500, 1000)); // Set preferred size for the visible area
 
         // Create the drawing panel
         drawingPanel = new DrawingPanel(false);
-        drawingPanel.setPreferredSize(new Dimension(1000, 1000)); // Set size of the drawing canvas
+        drawingPanel.setPreferredSize(new Dimension(1500, 1500)); // Set size of the drawing canvas
         scrollPane.setViewportView(drawingPanel); // Set the drawing panel as the viewport of the scroll pane
 
         centerPanel.add(scrollPane, BorderLayout.CENTER);
@@ -59,14 +59,14 @@ public class FloorDesignApp extends JFrame {
 
         // Menu bar
         // Assuming you want a single menu bar for the application window and not individual ones for each tab
-        menuBar = new TopMenuBar(pageSwapper); // Modify TopMenuBar to handle a possibly null DrawingPanel or update logic accordingly
+        menuBar = new TopMenuBar(pageSwapper, drawingPanel); // Modify TopMenuBar to handle a possibly null DrawingPanel or update logic accordingly
         setJMenuBar(menuBar);
 
         setContentPane(mainPanel); // Set the main panel as the content pane of the frame
         pack();
 
         // Set a minimum size for the frame and other properties
-        setMinimumSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(1100, 700));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }

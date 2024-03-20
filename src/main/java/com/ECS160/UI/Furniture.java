@@ -9,7 +9,6 @@ public class Furniture {
     private String imagePath;
     private Point position; // Position of the furniture in the drawing area
     private double rotationAngle; // Stores the rotation angle in degrees
-
     private double scaleFactor = 1.0; // Default scale
 
     public Furniture(String name, String imagePath) {
