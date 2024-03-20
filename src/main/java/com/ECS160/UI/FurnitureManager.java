@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FurnitureManager {
-    private List<Furniture> furnitureList;
+    private final List<Furniture> furnitureList;
 
     public FurnitureManager() {
         furnitureList = new ArrayList<>();

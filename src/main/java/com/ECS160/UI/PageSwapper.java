@@ -17,7 +17,7 @@ public class PageSwapper extends JPanel {
 
     public PageSwapper(FurnitureManager furnitureManager) {
         this.furnitureManager = furnitureManager;
-        this.initialPageCount = 3;
+        this.initialPageCount = 1;
         this.pageCount = initialPageCount; // Initialize page count
         setLayout(new BorderLayout());
 

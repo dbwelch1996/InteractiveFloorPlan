@@ -57,36 +57,36 @@
             // View Menu
             JMenu viewMenu = new JMenu("View");
             JMenuItem gridViewItem = new JMenuItem("Grid View");
-
             gridViewItem.addActionListener(e -> pageSwapper.toggleGridView()); // Directly call the pageSwapper's method
-
             viewMenu.add(gridViewItem);
-
             add(viewMenu);
 
-            // Help Menu
             JMenu helpMenu = new JMenu("Help");
-            JMenuItem aboutItem = new JMenuItem("About");
-
-            aboutItem.addActionListener(e -> viewUserManual());
-
-            helpMenu.add(aboutItem);
-
+            JMenuItem userManualItem = new JMenuItem("User Manual");
+            userManualItem.addActionListener(e -> viewUserManual());
+            helpMenu.add(userManualItem);
             add(helpMenu);
         }
         private void viewUserManual() {
             try {
-                String pdfPath = "/Users/dwelch/Desktop/Code/School/ECS160/Final Projec/doc/User Manual.pdf"; // Specify the correct path to the PDF file
+                String pdfPath = "doc/User Manual.pdf";
                 PDDocument document = Loader.loadPDF(new File(pdfPath));
                 PDFRenderer renderer = new PDFRenderer(document);
 
-                // Render the first page of the PDF to an image (you can implement a PDF viewer for multiple pages)
-                BufferedImage image = renderer.renderImage(0);
+                // Panel to hold all the pages
+                JPanel panel = new JPanel();
+                panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-                // Display the image in a JLabel inside a JScrollPane
-                JLabel label = new JLabel(new ImageIcon(image));
-                JScrollPane scrollPane = new JScrollPane(label);
-                scrollPane.setPreferredSize(new Dimension(600, 800));
+                // Render each page and add to the panel
+                for (int i = 0; i < document.getNumberOfPages(); i++) {
+                    BufferedImage image = renderer.renderImage(i);
+                    JLabel label = new JLabel(new ImageIcon(image));
+                    panel.add(label);
+                }
+
+                // Scroll pane to allow scrolling through the pages
+                JScrollPane scrollPane = new JScrollPane(panel);
+                scrollPane.setPreferredSize(new Dimension(600, 1000));
 
                 // Create a JFrame to display the PDF
                 JFrame frame = new JFrame("User Manual");
