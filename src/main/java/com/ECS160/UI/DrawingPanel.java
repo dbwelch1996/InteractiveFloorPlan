@@ -61,6 +61,21 @@ public class DrawingPanel extends JPanel {
                             // Scale down
                             draggedFurniture.setScaleFactor(draggedFurniture.getScaleFactor() - scaleIncrement);
                             break;
+                        case KeyEvent.VK_R:
+                            // Add 90 then snap to the nearest 90 degree increment
+                            int newAngle = (int)draggedFurniture.getRotationAngle() + 90;
+                            // Normalize the angle between 0 and 359 degrees
+                            newAngle %= 360;
+                            // Snap to the nearest 90 degrees increment
+                            int angleRemainder = newAngle % 90;
+                            if (angleRemainder >= 45) {
+                                newAngle += (90 - angleRemainder); // Snap up to the next increment
+                            } else {
+                                newAngle -= angleRemainder; // Snap down to the previous increment
+                            }
+
+                            draggedFurniture.setRotationAngle(newAngle);
+                            break;
                     }
                     repaint();
                 }
