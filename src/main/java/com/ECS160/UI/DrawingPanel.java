@@ -24,6 +24,7 @@ public class DrawingPanel extends JPanel {
     private FurnitureManager furnitureManager;
     private Furniture draggedFurniture;
     private Point lastMousePosition;
+    private boolean eraseMode = false; // Flag to indicate erase mode
 
     public DrawingPanel(boolean isGridView) {
         this.isGridView = isGridView;
@@ -94,34 +95,61 @@ public class DrawingPanel extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 requestFocusInWindow(); // Request focus when the mouse is pressed
-                Furniture selected = getFurnitureAt(e.getPoint());
-                if (selected != null) {
-                    draggedFurniture = selected;
-                    lastMousePosition = e.getPoint();
+
+                if (eraseMode) {
+                    // Determine if a furniture item or shape is clicked and remove it
+                    Furniture toErase = getFurnitureAt(e.getPoint());
+                    if (toErase != null) {
+                        placedFurniture.remove(toErase);
+                    } else {
+                        // Create a small rectangle around the click point to detect shape intersection
+                        Rectangle clickBounds = new Rectangle(e.getX() - 2, e.getY() - 2, 40, 40);
+                        Shape toRemove = null;
+                        for (Shape shape : shapes) {
+                            // Check if the shape intersects the click bounds
+                            if (shape.intersects(clickBounds)) {
+                                toRemove = shape;
+                                break;
+                            }
+                        }
+                        if (toRemove != null) {
+                            shapes.remove(toRemove);
+                        }
+                    }
+                    repaint();
                 } else {
-                    currentShape = new Line2D.Double(e.getX(), e.getY(), e.getX(), e.getY());
-                    shapes.add(currentShape);
+                    // Handle normal behavior when not in erase mode
+                    Furniture selected = getFurnitureAt(e.getPoint());
+                    if (selected != null) {
+                        draggedFurniture = selected;
+                        lastMousePosition = e.getPoint();
+                    } else {
+                        currentShape = new Line2D.Double(e.getX(), e.getY(), e.getX(), e.getY());
+                        shapes.add(currentShape);
+                    }
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                draggedFurniture = null;
-                lastMousePosition = null;
-                currentShape = null;
+                if (!eraseMode) {
+                    draggedFurniture = null;
+                    lastMousePosition = null;
+                    currentShape = null;
+                }
             }
         });
 
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (draggedFurniture != null && lastMousePosition != null) {
+                if (!eraseMode && draggedFurniture != null && lastMousePosition != null) {
                     int dx = e.getX() - lastMousePosition.x;
                     int dy = e.getY() - lastMousePosition.y;
                     draggedFurniture.moveBy(dx, dy);
                     lastMousePosition = e.getPoint();
                     repaint();
-                } else if (currentShape != null) {
+                } else if (currentShape != null && !eraseMode) {
                     Line2D line = (Line2D) currentShape;
                     line.setLine(line.getX1(), line.getY1(), e.getX(), e.getY());
                     repaint();
@@ -129,6 +157,7 @@ public class DrawingPanel extends JPanel {
             }
         });
     }
+
 
     private Furniture getFurnitureAt(Point point) {
         for (Furniture furniture : placedFurniture) {
@@ -253,4 +282,27 @@ public class DrawingPanel extends JPanel {
     public Dimension getPreferredSize() {
         return new Dimension(400, 300);
     }
+
+
+    public void setEraseMode(boolean eraseMode) {
+        this.eraseMode = eraseMode;
+        if (eraseMode) {
+            // Change cursor to eraser icon
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Image eraserImage = toolkit.getImage("src/main/java/com/ECS160/UI/eraser.png");
+
+            // Scale the image to a smaller size, e.g., 32x32 pixels
+            Image scaledEraserImage = eraserImage.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+            Cursor eraserCursor = toolkit.createCustomCursor(scaledEraserImage, new Point(0, 0), "eraser");
+            setCursor(eraserCursor);
+        } else {
+            // Revert cursor to default
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }
+    public boolean isEraseMode() {
+        return eraseMode;
+    }
+
+
 }

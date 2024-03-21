@@ -54,12 +54,12 @@ public class FloorDesignApp extends JFrame {
 
         // Add the sidebar with furniture
 
-        Sidebar sidebar = new Sidebar(furnitureManager); // Pass the furnitureManager to Sidebar
+        Sidebar sidebar = new Sidebar(furnitureManager, pageSwapper); // Pass the furnitureManager to Sidebar
         mainPanel.add(sidebar, BorderLayout.WEST);
 
         // Menu bar
         // Assuming you want a single menu bar for the application window and not individual ones for each tab
-        menuBar = new TopMenuBar(pageSwapper, drawingPanel); // Modify TopMenuBar to handle a possibly null DrawingPanel or update logic accordingly
+        menuBar = new TopMenuBar(pageSwapper, drawingPanel, sidebar); // Modify TopMenuBar to handle a possibly null DrawingPanel or update logic accordingly
         setJMenuBar(menuBar);
 
         setContentPane(mainPanel); // Set the main panel as the content pane of the frame
