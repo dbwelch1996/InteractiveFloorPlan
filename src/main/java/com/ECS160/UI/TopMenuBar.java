@@ -28,17 +28,15 @@
             // File Menu
             JMenu fileMenu = new JMenu("File");
             JMenuItem saveItem = new JMenuItem("Save");
-            JMenuItem loadItem = new JMenuItem("Load");
+
             JMenuItem clearItem = new JMenuItem("Clear");
             JMenuItem exitItem = new JMenuItem("Exit");
 
             saveItem.addActionListener(e -> saveAction());
-            loadItem.addActionListener(e -> System.out.println("Load action"));
             exitItem.addActionListener(e -> exitAction());
             clearItem.addActionListener(e -> clearAction()); // Set action for clearItem
 
             fileMenu.add(saveItem);
-            fileMenu.add(loadItem);
             fileMenu.addSeparator();
             fileMenu.add(clearItem);
             fileMenu.addSeparator();
@@ -48,14 +46,7 @@
 
             // Edit Menu
             JMenu editMenu = new JMenu("Edit");
-            JMenuItem undoItem = new JMenuItem("Undo");
-            JMenuItem redoItem = new JMenuItem("Redo");
 
-            undoItem.addActionListener(e -> undoAction());
-            redoItem.addActionListener(e -> redoAction());
-
-            editMenu.add(undoItem);
-            editMenu.add(redoItem);
             eraseModeItem = new JCheckBoxMenuItem("Erase Mode");
             eraseModeItem.addActionListener(e -> this.toggleEraseMode());
             editMenu.add(eraseModeItem);
