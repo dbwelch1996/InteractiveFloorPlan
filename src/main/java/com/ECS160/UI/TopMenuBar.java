@@ -17,10 +17,13 @@
         private ActionListener gridViewToggleListener;
         private PageSwapper pageSwapper;
         private DrawingPanel drawingPanel; // Reference to the DrawingPanel
+        private JCheckBoxMenuItem eraseModeItem; // Checkable menu item for erase mode
+        private Sidebar sidebar;
 
-        public TopMenuBar(PageSwapper pageSwapper, DrawingPanel drawingPanel) {
+        public TopMenuBar(PageSwapper pageSwapper, DrawingPanel drawingPanel, Sidebar sidebar) {
             this.pageSwapper = pageSwapper;
             this.drawingPanel = drawingPanel; // Set the DrawingPanel
+            this.sidebar = sidebar;
 
             // File Menu
             JMenu fileMenu = new JMenu("File");
@@ -53,6 +56,9 @@
 
             editMenu.add(undoItem);
             editMenu.add(redoItem);
+            eraseModeItem = new JCheckBoxMenuItem("Erase Mode");
+            eraseModeItem.addActionListener(e -> this.toggleEraseMode());
+            editMenu.add(eraseModeItem);
 
             add(editMenu);
 
@@ -68,6 +74,14 @@
             userManualItem.addActionListener(e -> viewUserManual());
             helpMenu.add(userManualItem);
             add(helpMenu);
+        }
+
+        private void toggleEraseMode() {
+            if (pageSwapper != null) {
+                pageSwapper.toggleEraseMode();
+                eraseModeItem.setSelected(pageSwapper.getEraseMode()); // Update the check state to reflect the current mode
+                sidebar.setEraseMode(pageSwapper.getEraseMode());
+            }
         }
         private void viewUserManual() {
             try {
@@ -104,10 +118,6 @@
             }
         }
 
-        // Setter method to set the pageSwapper instance
-        public void setPageSwapper(PageSwapper pageSwapper) {
-            this.pageSwapper = pageSwapper;
-        }
 
         // Method to trigger grid view toggle action
         public void toggleGridView() {

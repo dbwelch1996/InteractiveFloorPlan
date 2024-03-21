@@ -15,6 +15,8 @@ public class PageSwapper extends JPanel {
     private int pageCount;
     private int initialPageCount;
 
+    private boolean eraseMode = false;
+
     public PageSwapper(FurnitureManager furnitureManager) {
         this.furnitureManager = furnitureManager;
         this.initialPageCount = 1;
@@ -47,6 +49,7 @@ public class PageSwapper extends JPanel {
         DrawingPanel drawingPanel = new DrawingPanel(false);
         drawingPanel.setPreferredSize(new Dimension(1000,
                 1000));
+        drawingPanel.setEraseMode(eraseMode);
         scrollPane.setViewportView(drawingPanel);
 
         mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -113,6 +116,20 @@ public class PageSwapper extends JPanel {
 
     public void toggleGridView() {
         getCurrentDrawingPanel().toggleGridView();
+    }
+
+    public void toggleEraseMode() {
+        eraseMode = !eraseMode;
+        for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+            JPanel mainPanel = (JPanel) tabbedPane.getComponentAt(i);
+            JScrollPane scrollPane = (JScrollPane) mainPanel.getComponent(0);
+            DrawingPanel drawingPanel = (DrawingPanel) scrollPane.getViewport().getView();
+            drawingPanel.setEraseMode(eraseMode);
+        }
+    }
+
+    public boolean getEraseMode() {
+        return eraseMode;
     }
 
 
