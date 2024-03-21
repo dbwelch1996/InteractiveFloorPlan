@@ -76,6 +76,12 @@ public class DrawingPanel extends JPanel {
 
                             draggedFurniture.setRotationAngle(newAngle);
                             break;
+                        case KeyEvent.VK_BACK_SPACE:
+                            // Remove the selected furniture item
+                            placedFurniture.remove(draggedFurniture);
+                            draggedFurniture = null; // Clear the reference to avoid re-deletion
+                            repaint(); // Redraw to reflect the changes on the UI
+                            break;
                     }
                     repaint();
                 }
